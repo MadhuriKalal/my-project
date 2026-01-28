@@ -5,8 +5,15 @@ app = Flask(__name__)
 app.secret_key = 'namma_chennai_secret_key'
 
 # --- Database Management ---
+import os # <--- Make sure this is imported at the top
+
+# --- Database Management ---
 def get_db_connection():
-    conn = sqlite3.connect('database.db')
+    # This finds the correct path on Vercel's cloud computers
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    db_path = os.path.join(base_dir, 'database.db')
+    
+    conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -220,4 +227,5 @@ def logout():
 
 if __name__ == '__main__':
     init_db()
+
     app.run(debug=True)
