@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Namma Chennai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff9933;
+            --primary-dark: #e68a00;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: var(--bg-color); 
+            color: var(--text-dark);
+        }
+
+        /* --- Header Styles --- */
+        header { 
+            background: linear-gradient(135deg, #ff9933 0%, #ff7733 100%);
+            padding: 20px 40px; 
+            color: white; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .user-panel span {
+            font-weight: 500;
+            margin-right: 15px;
+            opacity: 0.9;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+            font-weight: 600;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* --- Main Container --- */
+        .container { 
+            padding: 50px 20px; 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* --- Card Styles --- */
+        .card { 
+            background: var(--card-bg);
+            width: 300px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            text-align: left;
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12); 
+        }
+        
+        /* Image Wrapper for Zoom Effect */
+        .image-wrapper {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-image {
+            transform: scale(1.1);
+        }
+
+        .card-content { 
+            padding: 24px; 
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card h3 { 
+            margin: 0 0 10px 0; 
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.25rem; 
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .card h3 a { 
+            color: inherit; 
+            text-decoration: none; 
+            transition: color 0.2s;
+        }
+
+        .card h3 a:hover { 
+            color: var(--primary-color); 
+        }
+
+        .card p { 
+            font-size: 0.95rem; 
+            margin-bottom: 20px; 
+            color: var(--text-light); 
+            line-height: 1.5;
+            flex-grow: 1; /* Pushes the button to the bottom */
+        }
+
+        .read-more-btn {
+            display: inline-block;
+            text-align: center;
+            background-color: transparent;
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 10px 20px;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+        }
+
+        .read-more-btn:hover { 
+            background-color: var(--primary-color);
+            color: white; 
+        }
+
+        /* --- Footer Styles --- */
+        footer { 
+            background: #2d3436; 
+            color: #dfe6e9; 
+            padding: 40px 20px; 
+            text-align: center; 
+            margin-top: 60px; 
+        }
+
+        footer h3 {
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 20px;
+            color: #ff9933;
+        }
+
+        .map-container {
+            max-width: 1000px;
+            margin: 0 auto 20px auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            border: 2px solid #444;
+        }
+
+        iframe { 
+            width: 100%; 
+            height: 350px; 
+            border: 0; 
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Explore Namma Chennai</h1>
+        <div class="user-panel">
+            <span>Welcome, {{ user }}</span>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </header>
+
+    <div class="container">
+        {% for spot in spots %}
+        <div class="card">
+            <div class="image-wrapper">
+                <img src="{{ spot['thumbnail_url'] }}" alt="{{ spot['name'] }}" class="card-image">
+            </div>
+            
+            <div class="card-content">
+                <h3><a href="/spot/{{ spot['id'] }}">{{ spot['name'] }}</a></h3>
+                <p>{{ spot['description'][:90] }}...</p>
+                <a href="/spot/{{ spot['id'] }}" class="read-more-btn">Explore Place &rarr;</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <footer>
+        <h3>Locate Us in Chennai</h3>
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248756.11675383325!2d80.06892408993874!3d13.047487785461158!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265ea4f7d3361%3A0x6e61a70b6863d433!2sChennai%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <p>© 2026 Explore Namma Chennai | Designed with ❤️</p>
+    </footer>
+</body>
+</html>
