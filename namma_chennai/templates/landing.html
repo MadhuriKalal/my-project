@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Namma Chennai - Explore the Beauty</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- RESET & VARIABLES --- */
+        :root {
+            --primary-color: #ff9933; /* Kept your project's orange */
+            --primary-dark: #e68a00;
+            --text-dark: #333;
+            --text-light: #666;
+            --white: #fff;
+            --dark-overlay: rgba(0, 0, 0, 0.5);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; }
+        a { text-decoration: none; }
+
+        /* --- NAVIGATION --- */
+        nav {
+            background: #2c3e50; /* Dark Blue like reference */
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            color: var(--white);
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span { color: var(--primary-color); }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--primary-color); }
+
+        .btn-login {
+            background: var(--primary-color);
+            padding: 8px 20px;
+            border-radius: 20px;
+            color: white !important;
+            transition: background 0.3s !important;
+        }
+
+        .btn-login:hover { background: var(--primary-dark) !important; }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            /* Using one of your images as background */
+            background: linear-gradient(var(--dark-overlay), var(--dark-overlay)), url('/static/images/san2.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            padding-top: 60px;
+        }
+
+        .hero h3 {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 20px 0 30px;
+            opacity: 0.9;
+        }
+
+        .hero-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(255, 153, 51, 0.4);
+            transition: transform 0.3s;
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-3px);
+            background: var(--primary-dark);
+        }
+
+        /* --- ABOUT SECTION --- */
+        .about {
+            padding: 80px 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            background: white;
+            min-height: 80vh; /* Ensures it takes up space */
+        }
+
+        .about-image {
+            flex: 1;
+            max-width: 500px;
+            position: relative;
+        }
+
+        /* The stylistic border frame from your reference */
+        .about-image img {
+            width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 10px solid #fff; 
+            outline: 1px solid #ddd;
+        }
+
+        .about-content {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .about-subtitle {
+            color: var(--primary-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .about-content h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin: 0 0 20px 0;
+        }
+
+        .about-content p {
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .feature-list li {
+            position: relative;
+            padding-left: 25px;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .feature-list li::before {
+            content: "➜";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav { padding: 15px 20px; }
+            .nav-links { display: none; } /* Hide nav on mobile for simplicity */
+            .hero h1 { font-size: 2.5rem; }
+            .about { flex-direction: column; padding: 50px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">📍 Namma <span>Chennai</span></div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#about">About</a>
+            <a href="/login_page" class="btn-login">Login / Sign Up</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h3>Welcome To South India</h3>
+        <h1>Namma Chennai</h1>
+        <p>Explore the beauty of Chennai, from historic temples to the breezy Marina beach. Your ultimate guide to the Gateway of South India.</p>
+        <a href="#about" class="hero-btn">Discover Now</a>
+    </header>
+
+    <section class="about" id="about">
+        <div class="about-image">
+            <img src="/static/images/Media (1).jpg" alt="About Chennai">
+        </div>
+        <div class="about-content">
+            <span class="about-subtitle">About Us</span>
+            <h2>Welcome to Namma Chennai</h2>
+            <p>
+                Chennai, formerly Madras, is a city that perfectly blends the old with the new. 
+                Whether you are a history buff, a foodie, or a beach lover, this city has something for everyone.
+            </p>
+            <p>
+                Our project, "Explore Namma Chennai", aims to provide tourists and locals alike with a 
+                curated list of must-visit spots, complete with historical facts, real-time weather updates, 
+                and easy navigation.
+            </p>
+            
+            <ul class="feature-list">
+                <li>Historical Landmarks</li>
+                <li>Real-time Weather</li>
+                <li>Interactive Maps</li>
+                <li>Hotel Recommendations</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Explore Namma Chennai. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

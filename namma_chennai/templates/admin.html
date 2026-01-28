@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - Namma Chennai</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #ff9933; color: white; }
+        .form-box { background: #f9f9f9; padding: 20px; margin-bottom: 20px; border: 1px solid #ddd; }
+        .btn-delete { color: red; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <a href="/logout">Logout</a>
+
+    <div class="form-box">
+        <h3>Add New Tourist Spot</h3>
+        <form action="/add_spot" method="POST">
+            <input type="text" name="name" placeholder="Place Name" required style="width: 200px;">
+            <input type="text" name="desc" placeholder="Fact/Info" required style="width: 300px;">
+            <input type="text" name="hotels" placeholder="Nearby Hotels" required style="width: 300px;">
+            <button type="submit">Add Spot</button>
+        </form>
+    </div>
+
+    <h3>Manage Listed Spots</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Place Name</th>
+                <th>Info/Facts</th>
+                <th>Nearby Hotels</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for spot in spots %}
+            <tr>
+                <td>{{ spot['id'] }}</td>
+                <td>{{ spot['name'] }}</td>
+                <td>{{ spot['description'] }}</td>
+                <td>{{ spot['nearby_hotels'] }}</td>
+                <td><a href="/delete_spot/{{ spot['id'] }}" class="btn-delete">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
