@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ spot['name'] }} - Namma Chennai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff9933;
+            --glass-bg: rgba(0, 0, 0, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            
+            /* Static Background Settings */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        /* --- Navbar --- */
+        .navbar { 
+            padding: 20px 40px; 
+            background: rgba(0, 0, 0, 0.4); 
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar a { 
+            color: white; 
+            text-decoration: none; 
+            font-weight: 600; 
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+
+        .navbar a:hover { color: var(--primary-color); }
+
+        /* --- Main Container --- */
+        .container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 50px;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 { 
+            font-family: 'Poppins', sans-serif;
+            font-size: 3rem; 
+            margin: 0 0 20px 0; 
+            color: var(--primary-color);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: #f0f0f0;
+            text-align: left;
+        }
+
+        .hotels-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+            text-align: left;
+            margin-bottom: 40px;
+        }
+
+        .hotels-box h3 {
+            margin: 0 0 10px 0;
+            color: var(--primary-color);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .hotels-box p { margin: 0; color: #ddd; }
+
+        /* --- Buttons --- */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button, .btn-link {
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+
+        .btn-map { background-color: #4285F4; box-shadow: 0 4px 15px rgba(66, 133, 244, 0.4); }
+        .btn-weather { background-color: #ff9933; box-shadow: 0 4px 15px rgba(255, 153, 51, 0.4); }
+        
+        /* NEW: Gallery Button Style */
+        .btn-gallery { 
+            background-color: #9b59b6; /* Purple color */
+            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4); 
+        }
+
+        button:hover, .btn-link:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.1);
+        }
+
+        /* Weather Result */
+        #weather-result {
+            margin-top: 25px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            display: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* --- IMAGE MODAL (Popup) STYLES --- */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; 
+            z-index: 2000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .modal-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 90%;
+        }
+
+        .modal-img-container {
+            text-align: center;
+            color: #ddd;
+        }
+
+        .modal-img {
+            max-width: 500px; /* Limit image width */
+            max-height: 70vh;
+            border-radius: 10px;
+            border: 3px solid white;
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+            object-fit: cover;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: var(--primary-color);
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('{{ spot['image_url'] }}');">
+
+    <div class="navbar">
+        <a href="/home">← Back to Dashboard</a>
+    </div>
+
+    <div class="container">
+        <div class="glass-card">
+            <h1>{{ spot['name'] }}</h1>
+            
+            <p class="description">{{ spot['description'] }}</p>
+
+            <div class="hotels-box">
+                <h3>🏨 Nearby Stays</h3>
+                <p>{{ spot['nearby_hotels'] }}</p>
+            </div>
+
+            <div class="button-group">
+                <a href="{{ spot['map_url'] }}" target="_blank" class="btn-link btn-map">
+                    📍 Maps
+                </a>
+
+                <button class="btn-weather" 
+                        data-lat="{{ spot['latitude'] }}" 
+                        data-lon="{{ spot['longitude'] }}" 
+                        onclick="fetchWeather(this)">
+                    🌤️ Weather
+                </button>
+                
+                <button class="btn-gallery" onclick="openModal()">
+                    📷 View Images
+                </button>
+            </div>
+
+            <div id="weather-result">Loading...</div>
+        </div>
+    </div>
+
+    <div id="imageModal" class="modal">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            
+            <div class="modal-img-container">
+                <p>Image 1</p>
+                <img src="{{ spot['thumbnail_url'] }}" alt="Thumbnail" class="modal-img">
+            </div>
+
+            <div class="modal-img-container">
+                <p>Image 2</p>
+                <img src="{{ spot['image_url'] }}" alt="Background" class="modal-img">
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- Weather Function ---
+        function fetchWeather(button) {
+            const lat = button.getAttribute('data-lat');
+            const lon = button.getAttribute('data-lon');
+            const display = document.getElementById('weather-result');
+            
+            display.style.display = 'block';
+            display.innerHTML = "Fetching live weather...";
+
+            fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`)
+                .then(response => response.json())
+                .then(data => {
+                    const temp = data.current_weather.temperature;
+                    const wind = data.current_weather.windspeed;
+                    display.innerHTML = `
+                        <span style="font-size: 1.5rem; font-weight: bold;">${temp}°C</span> 
+                        <br> 
+                        <span style="opacity: 0.8;">Wind: ${wind} km/h</span>`;
+                })
+                .catch(error => {
+                    display.innerHTML = "⚠️ Weather data unavailable.";
+                });
+        }
+
+        // --- Modal Functions (New) ---
+        function openModal() {
+            document.getElementById("imageModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("imageModal").style.display = "none";
+        }
+
+        // Close modal when clicking outside the images
+        window.onclick = function(event) {
+            var modal = document.getElementById("imageModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+</html>
