@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Namma Chennai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- VARIABLES --- */
+        :root {
+            --primary-color: #ff9933; 
+            --primary-dark: #e68a00;
+            --secondary-color: #2c3e50;
+            --text-color: #333;
+            --light-gray: #f4f7f6;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Matches the Landing Page Hero Section */
+            background: linear-gradient(rgba(44, 62, 80, 0.6), rgba(44, 62, 80, 0.7)), url('/static/images/Media (17).jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* --- LOGIN CARD --- */
+        .login-card {
+            background: white;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-top: 5px solid var(--primary-color); /* Orange Accent Top */
+        }
+
+        /* Header Text */
+        .login-card h1 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .login-card p {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        /* --- FORM ELEMENTS --- */
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Open Sans', sans-serif;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        /* Hints (Admin note) */
+        #hint {
+            font-size: 0.85rem;
+            color: #e74c3c;
+            background: #fdecea;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: -10px;
+            margin-bottom: 20px;
+            border-left: 3px solid #e74c3c;
+        }
+
+        /* --- BUTTON --- */
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50px; /* Pill shape like landing page */
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(255, 153, 51, 0.3);
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 153, 51, 0.4);
+        }
+
+        /* --- BACK LINK --- */
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            color: #888;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
+        /* Flash Messages */
+        .flash-msg {
+            color: #d32f2f;
+            background: #ffebee;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h1>Welcome Back</h1>
+        <p>Login to continue exploring Chennai</p>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-msg">{{ messages[0] }}</div>
+            {% endif %}
+        {% endwith %}
+
+        <form action="/login" method="POST">
+            <div class="form-group">
+                <label for="role">Select Role</label>
+                <select name="role" id="role" onchange="toggleHint()">
+                    <option value="user">Tourist / User</option>
+                    <option value="admin">Administrator</option>
+                </select>
+            </div>
+
+            <div id="hint" style="display:none;">
+                <strong>Note:</strong> Admin email is <em>admin@nammachennai.com</em>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" name="email" id="email" placeholder="name@example.com" required>
+            </div>
+
+            <button type="submit">Enter Website</button>
+        </form>
+
+        <a href="/" class="back-link">← Back to Home Page</a>
+    </div>
+
+    <script>
+        function toggleHint() {
+            var role = document.getElementById("role").value;
+            var hint = document.getElementById("hint");
+            // Show hint only if Admin is selected
+            if (role === "admin") {
+                hint.style.display = "block";
+            } else {
+                hint.style.display = "none";
+            }
+        }
+    </script>
+</body>
+
+</html>
